@@ -23,7 +23,19 @@ namespace Mission06_nj236.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpGet]
+        public IActionResult FillOutMovieForm ()
+        {
+            return View("MovieForm");
+        }
+
+        [HttpPost]
+        public IActionResult FillOutMovieForm(MovieInfo MI)
+        {
+            return View("Confirmation", MI);
+        }
+
+        public IActionResult Podcast()
         {
             return View();
         }
