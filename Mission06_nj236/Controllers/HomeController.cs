@@ -12,10 +12,13 @@ namespace Mission06_nj236.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private MovieDBContext MovieContext { get; set; }
 
-        public HomeController(ILogger<HomeController> logger)
+        //Controller
+        public HomeController(ILogger<HomeController> logger, MovieDBContext con)
         {
             _logger = logger;
+            MovieContext = con;
         }
 
         public IActionResult Index()
@@ -32,6 +35,8 @@ namespace Mission06_nj236.Controllers
         [HttpPost]
         public IActionResult FillOutMovieForm(MovieInfo MI)
         {
+            MovieContext.Add(MI);
+            MovieContext.SaveChanges();
             return View("Confirmation", MI);
         }
 

@@ -8,6 +8,9 @@ namespace Mission06_nj236.Models
 {
     public class MovieInfo
     {
+        [Key]
+        [Required]
+        public int MovieID { get; set; }
         [Required]
         public string Category { get; set; }
         [Required]
