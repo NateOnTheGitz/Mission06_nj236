@@ -11,13 +11,11 @@ namespace Mission06_nj236.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private MovieDBContext MovieContext { get; set; }
 
         //Controller
-        public HomeController(ILogger<HomeController> logger, MovieDBContext con)
+        public HomeController(MovieDBContext con)
         {
-            _logger = logger;
             MovieContext = con;
         }
 
@@ -45,11 +43,14 @@ namespace Mission06_nj236.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [HttpGet]
+        public IActionResult MovieList()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var movies = MovieContext.MovieInfos.ToList();
+
+            return View(movies);
         }
+
     }
 }
 

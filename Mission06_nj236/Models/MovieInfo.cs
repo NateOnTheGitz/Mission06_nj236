@@ -11,8 +11,13 @@ namespace Mission06_nj236.Models
         [Key]
         [Required]
         public int MovieID { get; set; }
+
+        //Build Foreign Key Relationship
         [Required]
-        public string Category { get; set; }
+        public int CategoryID { get; set; }
+        public Category Category { get; set; }
+
+
         [Required]
         public string Title { get; set; }
         [Required]
