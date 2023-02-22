@@ -30,15 +30,24 @@ namespace Mission06_nj236.Controllers
         {
             ViewBag.Categories = MovieContext.Categories.ToList();
 
-            return View("MovieForm");
+            return View("MovieForm", new MovieInfo());
         }
 
         [HttpPost]
         public IActionResult FillOutMovieForm(MovieInfo MI)
         {
-            MovieContext.Add(MI);
-            MovieContext.SaveChanges();
-            return View("Confirmation", MI);
+            if (ModelState.IsValid)
+            {
+                MovieContext.Add(MI);
+                MovieContext.SaveChanges();
+                return View("Confirmation", MI);
+            }
+            else //If invalid
+            {
+                ViewBag.Categories = MovieContext.Categories.ToList();
+                return View(MI);
+            }
+            
         }
 
         public IActionResult Podcast()
@@ -54,6 +63,39 @@ namespace Mission06_nj236.Controllers
                 .ToList();
 
             return View(movies);
+        }
+
+        [HttpGet]
+        public IActionResult Edit (int id)
+        {
+            ViewBag.Categories = MovieContext.Categories.ToList();
+
+            var MovieInfo = MovieContext.MovieInfos.Single(x => x.MovieID == id);
+
+            return View("MovieForm", MovieInfo);
+        }
+
+        [HttpPost]
+        public IActionResult Edit (MovieInfo edd)
+        {
+            MovieContext.Update(edd);
+            MovieContext.SaveChanges();
+            return RedirectToAction("MovieList");
+        }
+
+        [HttpGet]
+        public IActionResult Delete (int id)
+        {
+            var Movie = MovieContext.MovieInfos.Single(x => x.MovieID == id);
+            return View(Movie);
+        }
+
+        [HttpPost]
+        public IActionResult Delete (MovieInfo MI)
+        {
+            MovieContext.MovieInfos.Remove(MI);
+            MovieContext.SaveChanges();
+            return RedirectToAction("MovieList");
         }
 
     }
