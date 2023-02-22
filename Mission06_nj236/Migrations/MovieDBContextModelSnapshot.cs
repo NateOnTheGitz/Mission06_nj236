@@ -15,15 +15,70 @@ namespace Mission06_nj236.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.32");
 
+            modelBuilder.Entity("Mission06_nj236.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CategoryID");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryID = 1,
+                            CategoryName = "Action/Adventure"
+                        },
+                        new
+                        {
+                            CategoryID = 2,
+                            CategoryName = "Comedy"
+                        },
+                        new
+                        {
+                            CategoryID = 3,
+                            CategoryName = "Drama"
+                        },
+                        new
+                        {
+                            CategoryID = 4,
+                            CategoryName = "Family"
+                        },
+                        new
+                        {
+                            CategoryID = 5,
+                            CategoryName = "Horror/Suspense"
+                        },
+                        new
+                        {
+                            CategoryID = 6,
+                            CategoryName = "Miscellaneous"
+                        },
+                        new
+                        {
+                            CategoryID = 7,
+                            CategoryName = "Television"
+                        },
+                        new
+                        {
+                            CategoryID = 8,
+                            CategoryName = "VHS"
+                        });
+                });
+
             modelBuilder.Entity("Mission06_nj236.Models.MovieInfo", b =>
                 {
                     b.Property<int>("MovieID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("CategoryID")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Director")
                         .IsRequired()
@@ -52,13 +107,15 @@ namespace Mission06_nj236.Migrations
 
                     b.HasKey("MovieID");
 
+                    b.HasIndex("CategoryID");
+
                     b.ToTable("MovieInfos");
 
                     b.HasData(
                         new
                         {
                             MovieID = 1,
-                            Category = "Animated",
+                            CategoryID = 4,
                             Director = "Brad Bird",
                             Edited = false,
                             LentTo = "",
@@ -70,7 +127,7 @@ namespace Mission06_nj236.Migrations
                         new
                         {
                             MovieID = 2,
-                            Category = "Action/Adventure",
+                            CategoryID = 1,
                             Director = "Christopher Nolan",
                             Edited = false,
                             LentTo = "",
@@ -82,7 +139,7 @@ namespace Mission06_nj236.Migrations
                         new
                         {
                             MovieID = 3,
-                            Category = "Drama",
+                            CategoryID = 3,
                             Director = "Sidney Lumet",
                             Edited = false,
                             LentTo = "Nate J",
@@ -91,6 +148,15 @@ namespace Mission06_nj236.Migrations
                             Title = "12 Angry Men",
                             Year = "1957"
                         });
+                });
+
+            modelBuilder.Entity("Mission06_nj236.Models.MovieInfo", b =>
+                {
+                    b.HasOne("Mission06_nj236.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Mission06_nj236.Models;
 using System;
@@ -27,6 +28,8 @@ namespace Mission06_nj236.Controllers
         [HttpGet]
         public IActionResult FillOutMovieForm ()
         {
+            ViewBag.Categories = MovieContext.Categories.ToList();
+
             return View("MovieForm");
         }
 
@@ -46,7 +49,9 @@ namespace Mission06_nj236.Controllers
         [HttpGet]
         public IActionResult MovieList()
         {
-            var movies = MovieContext.MovieInfos.ToList();
+            var movies = MovieContext.MovieInfos
+                .Include(x => x.Category)
+                .ToList();
 
             return View(movies);
         }
